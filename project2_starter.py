@@ -41,7 +41,26 @@ def load_listing_results(html_path) -> list[tuple]:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    pass
+    with open(html_path, "r", encoding="utf-8-sig") as f:
+        soup = BeautifulSoup(f, "html.parser")
+    
+    results = []
+    for tag in soup.find_all("a", href=True):
+        href = tag["href"]
+        if "/rooms/" in href:
+            listing_id = href.split("/rooms/")[1].split("?")[0]
+            title = tag.get("aria-label", "").strip()
+            if listing_id and title:
+                results.append((title, listing_id))
+
+    
+    seen = set()
+    unique = []
+    for item in results:
+        if item[1] not in seen:
+            seen.add(item[1])
+            unique.append(item)
+    return unique
     # ==============================
     # YOUR CODE ENDS HERE
     # ==============================
