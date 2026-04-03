@@ -89,7 +89,63 @@ def get_listing_details(listing_id) -> dict:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    pass
+    path = f"html_files/listing_{listing_id}.html"
+    with open(path, "r", encoding="utf-8-sig") as f:
+        soup = BeautifulSoup(f, "html.parser")
+
+
+    policy_number = "Exempt"
+
+    for tag in soup.find_all(string=True):
+        text = tag.strip()
+        if "STR-" in text or "20" in text and "STR" in text:
+            policy_number = text.strip()
+            break
+        elif "Pending" in text:
+            policy_number = "Pending"
+            break
+        elif "Exempt" in text:
+            policy_number = "Exempt"
+            break
+
+    host_type = "regular"
+    if soup.find(string=lambda t: t and "Superhost" in t):
+        host_type = "Superhost"
+
+    host_name = ""
+    host_tag = soup.find("div", class_=lambda c: c and "host" in c.lower())
+    if host_tag:
+        host_name = host_tag.get_text(strip=True)
+
+    
+    subtitle = soup.find("h2")
+    subtitle_text = subtitle.get_text() if subtitle else ""
+    if "Private" in subtitle_text:
+        room_type = "Private Room"
+    elif "Shared" in subtitle_text:
+        room_type = "Shared Room"
+    else:
+        room_type = "Entire Room"
+
+    location_rating = 0.0
+    for tag in soup.find_all(string=True):
+        if "Location" in tag:
+            parent = tag.find_parent()
+            if parent:
+                nums = parent.find_next(string=lambda t: t and t.strip().replace(".", "").isdigit())
+                if nums:
+                    location_rating = float(nums.strip())
+            break
+
+    return {
+        listing_id: {
+            "policy_number": policy_number,
+            "host_type": host_type,
+            "host_name": host_name,
+            "room_type": room_type,
+            "location_rating": location_rating
+        }
+    }
     # ==============================
     # YOUR CODE ENDS HERE
     # ==============================
