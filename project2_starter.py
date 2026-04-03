@@ -2,13 +2,14 @@
 # Your name: Ava Levy
 # Your student id: 54317988
 # Your email: avalevy@umich.edu
-# Who or what you worked with on this homework (including generative AI like ChatGPT):
+# Who or what you worked with on this homework (including generative AI like ChatGPT): Claude AI
 # If you worked with generative AI also add a statement for how you used it.
-# e.g.:
+# e.g.: 
 # Asked ChatGPT for hints on debugging and for suggestions on overall code structure
-#
+# I used AI for suggestions and help with debugging parts of my code and help making it room smoother
 # Did your use of GenAI on this assignment align with your goals and guidelines in your Gen AI contract? If not, why?
-#
+# Yes my use of GenAI aligned with my GenAI contract because my goal was to try my best 
+# coding first and then ask for help on parts I didn't understand
 # --- ARGUMENTS & EXPECTED RETURN VALUES PROVIDED --- #
 # --- SEE INSTRUCTIONS FOR FULL DETAILS ON METHOD IMPLEMENTATION --- #
 
