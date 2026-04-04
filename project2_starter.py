@@ -97,10 +97,11 @@ def get_listing_details(listing_id) -> dict:
 
     policy_number = "Exempt"
 
+    pattern = re.compile(r"(STR-\d+|20\d{2}-00\d{4}STR|Pending|Exempt)")
     for tag in soup.find_all(string=True):
-        text = tag.strip()
-        if "STR-" in text or "20" in text and "STR" in text:
-            policy_number = text.strip()
+        match = pattern.search(tag.strip())
+        if match:
+            policy_number = match.group(1)
             break
         elif "Pending" in text:
             policy_number = "Pending"
@@ -114,19 +115,19 @@ def get_listing_details(listing_id) -> dict:
         host_type = "Superhost"
 
     host_name = ""
-    host_tag = soup.find("div", class_=lambda c: c and "host" in c.lower())
-    if host_tag:
-        host_name = host_tag.get_text(strip=True)
+    hosted_tag = soup.find(string=re.compile(r"Hosted by"))
+    if hosted_tag:
+        host_name = hosted_tag.strip().replace("Hosted by", "").strip()
 
     
+    room_type = "Entire Home/Apt"  # default
     subtitle = soup.find("h2")
-    subtitle_text = subtitle.get_text() if subtitle else ""
-    if "Private" in subtitle_text:
-        room_type = "Private Room"
-    elif "Shared" in subtitle_text:
-        room_type = "Shared Room"
-    else:
-        room_type = "Entire Room"
+    if subtitle:
+        text = subtitle.get_text()
+        if "Private room" in text:
+            room_type = "Private Room"
+        elif "Shared room" in text:
+            room_type = "Shared Room"
 
     location_rating = 0.0
     for tag in soup.find_all(string=True):
@@ -267,7 +268,7 @@ def validate_policy_numbers(data) -> list[str]:
     for row in data:
         listing_id = row[1]
         policy = row[2]
-        if policy in ("Policy", "Exempt"):
+        if policy in ("Pending", "Exempt"):
             continue
         if not pattern.match(policy):
             invalid.append(listing_id)
