@@ -99,16 +99,12 @@ def get_listing_details(listing_id) -> dict:
 
     pattern = re.compile(r"(STR-\d+|20\d{2}-00\d{4}STR|Pending|Exempt)")
     for tag in soup.find_all(string=True):
-        match = pattern.search(tag.strip())
+        text = tag.strip()
+        match = pattern.search(text)
         if match:
             policy_number = match.group(1)
             break
-        elif "Pending" in text:
-            policy_number = "Pending"
-            break
-        elif "Exempt" in text:
-            policy_number = "Exempt"
-            break
+        
 
     host_type = "regular"
     if soup.find(string=lambda t: t and "Superhost" in t):
@@ -120,13 +116,13 @@ def get_listing_details(listing_id) -> dict:
         host_name = hosted_tag.strip().replace("Hosted by", "").strip()
 
     
-    room_type = "Entire Home/Apt"  # default
+    room_type = "Entire Room"  
     subtitle = soup.find("h2")
     if subtitle:
         text = subtitle.get_text()
-        if "Private room" in text:
+        if "Private" in text:
             room_type = "Private Room"
-        elif "Shared room" in text:
+        elif "Shared" in text:
             room_type = "Shared Room"
 
     location_rating = 0.0
