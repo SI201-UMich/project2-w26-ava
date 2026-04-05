@@ -9,6 +9,7 @@ Skim through the Legal Issues section of Web Scraping in the US on Wikipedia and
 article about the legal issues with the Computer Fraud and Abuse Act, and describe at
 least one factor you believe is important to consider when discussing the legality of web
 scraping and why.
+One important factor that is important when discussing the legality of web scraping is considering how the Computer Fraud and Abuse Act is interpreted. As it stated in the article, this law is very vague and in fact, violating a website's terms of service does not violate the act. The law states certain phrases that have unclear meanings and makes it hard for those that are using web scraping for legitamite purposes to know if they are abusing the act. It creates significant legal uncertainty. Journalists and researchers who are conducting online discrimination studies need to violate a website's terms of services, and without knowing the foundations and legalities of the act, they could face serious punishment due to its vague language. 
 ● Scraping public data does not always lead to positive results for society. For example,
 look to Facebook–Cambridge Analytica data scandal - Wikipedia or Clearview AI -
 Wikipedia. Many argue that using someone’s personal data without their consent (even if
